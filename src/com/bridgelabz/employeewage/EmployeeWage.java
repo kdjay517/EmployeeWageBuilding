@@ -1,8 +1,7 @@
 package com.bridgelabz.employeewage;
 
-import java.util.*;
 
-public class EmployeeWage {
+public class EmployeeWage implements EmployeeService {
 	public static final int IS_PART_TIME = 1;
 	public static final int IS_FULL_TIME = 2;
 
@@ -13,7 +12,7 @@ public class EmployeeWage {
 		companyEmpWageArray = new CompanyEmployeeWage[5];
 	}
 
-	private void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
+	public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
 		companyEmpWageArray[numOfCompany] = new CompanyEmployeeWage(company, empRatePerHour, numOfWorkingDays,
 				maxHoursPerMonth);
 		numOfCompany++;
