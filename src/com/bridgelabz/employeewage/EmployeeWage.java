@@ -1,28 +1,45 @@
 package com.bridgelabz.employeewage;
 
 
+import java.util.ArrayList;
+
 public class EmployeeWage implements EmployeeService {
 	public static final int IS_PART_TIME = 1;
 	public static final int IS_FULL_TIME = 2;
 
 	private int numOfCompany = 0;
-	private CompanyEmployeeWage[] companyEmpWageArray;
+	private ArrayList<CompanyEmployeeWage> companyEmpWageList;
 
 	public EmployeeWage() {
-		companyEmpWageArray = new CompanyEmployeeWage[5];
+		companyEmpWageList = new ArrayList<CompanyEmployeeWage>();
 	}
 
 	public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
-		companyEmpWageArray[numOfCompany] = new CompanyEmployeeWage(company, empRatePerHour, numOfWorkingDays,
+		CompanyEmployeeWage companyEmpWage = new CompanyEmployeeWage(company, empRatePerHour, numOfWorkingDays,
 				maxHoursPerMonth);
-		numOfCompany++;
+		companyEmpWageList.add(companyEmpWage);
 	}
 
 	public void computeEmpWage() {
-		for (int i = 0; i < numOfCompany; i++) {
-			companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(companyEmpWageArray[i]));
-			System.out.println(companyEmpWageArray[i]);
+		for (int i = 0; i < companyEmpWageList.size(); i++) {
+
+			CompanyEmployeeWage companyEmpWage = companyEmpWageList.get(i);
+			companyEmpWage.setTotalEmpWage(this.computeEmpWage(companyEmpWage));
+			System.out.println(companyEmpWage);
 		}
+	}
+
+	@Override
+	public int getTotalWage(String company) {
+		int totalWage = 0;
+		for (int i = 0; i < companyEmpWageList.size(); i++) {
+			if (company.equals(companyEmpWageList.get(i).getCompany())) {
+				totalWage = companyEmpWageList.get(i).getTotalEmpWage();
+				return totalWage;
+			}
+
+		}
+		return 0;
 	}
 
 	private int computeEmpWage(CompanyEmployeeWage companyEmpWage) {
@@ -55,6 +72,8 @@ public class EmployeeWage implements EmployeeService {
 		employeeWage.addCompanyEmpWage("DMart", 20, 2, 10);
 		employeeWage.addCompanyEmpWage("jio", 10, 4, 20);
 		employeeWage.computeEmpWage();
+		System.out.println("Total Wage for DMart Company:" + employeeWage.getTotalWage("DMart")) ;
+
 	}
 
 }
